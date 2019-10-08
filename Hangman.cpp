@@ -6,27 +6,70 @@ using namespace std;
 
 const int MAX_LIVES = 5;
 void welcome();
+void choices();
 int wordGuess(char guess, string secretword, string &guessword);
 
 int main()
 {
 	char choice = 'Y';
-	// Welcome the user to the game.
-	welcome();
+	int category = 0;
 
 	// While loop to prompt the user if they want to play again.
 	while (toupper(choice) != 'N')
 	{
+		// Welcome the user to the game and prompts user to enter a number to choose a category of words
+		welcome();
+		choices();
 		char letter;
 		int wrong_guesses = 0;
 		string word;
-		string words[10] = { "germany","france","austria","italy","switzerland","belgium","norway","iceland","finland","spain" };
+		string europe[10] = { "germany","france","austria","italy","switzerland","belgium","norway","iceland","finland","spain" };
+		string arab[10] = { "iraq","jordan","syria","palestine","kuwait","oman","bahrain","qatar","lebanon","egypt" };
+		string states[10] = { "california","florida","washington","texas","oregon","alabama","missouri","tennessee","idaho" };
+		string cars[10] = { "audi","hyundai","chevrolet","ford","ferrari","lamborghini","toyota","honda","volkswagen","porsche" };
+		string luxury[10] = { "gucci","versace","balenciaga","fendi","balmain","chanel","hermes","givenchy","burberry","prada" };
+		string languages[10] = { "arabic","english","german","french","spanish","japanese","swedish","mandarin","korean","italian" };
+		string pets[10] = { "cat","dog","parrot","tortoise","hamster","goldfish","snake","monkey","bunny","squirrel" };
 
 		// Generate a random word from the words array and copy it to word.
 		srand(time(NULL));
 		int n = rand() % 10;
-		word = words[n];
 
+		cin >> category;
+		switch (category)
+		{
+		case 1:
+			system("CLS");
+			word = europe[n];
+			break;
+		case 2:
+			system("CLS");
+			word = arab[n];
+			break;
+		case 3:
+			system("CLS");
+			word = states[n];
+			break;
+		case 4:
+			system("CLS");
+			word = cars[n];
+			break;
+		case 5:
+			system("CLS");
+			word = luxury[n];
+			break;
+		case 6:
+			system("CLS");
+			word = languages[n];
+			break;
+		case 7:
+			system("CLS");
+			word = pets[n];
+			break;
+		default:
+			exit;
+		}
+	
 		// This will show *'s in place of the secret word to hide it.
 		string unknown(word.length(), '*');
 
@@ -58,6 +101,7 @@ int main()
 				cout << "Play again? (Y/N)  ";
 				cin >> choice;
 				system("CLS");
+				choices();
 				break;
 			}
 		}
@@ -71,6 +115,7 @@ int main()
 			cout << "Play again? (Y/N)  ";
 			cin >> choice;
 			system("CLS");
+			//choices();
 		}
 		cin.ignore();
 		
@@ -79,11 +124,21 @@ int main()
 	return 0;
 }
 // ----------
+void choices()
+{
+	cout << "Pick a word category:" << endl
+		<< "1) European countries" << endl
+		<< "2) Arab countries" << endl
+		<< "3) US states" << endl
+		<< "4) Car brands" << endl
+		<< "5) Luxury clothing brands" << endl
+		<< "6) Languages" << endl
+		<< "7) Pets" << endl;
+}
 // Welcome the user.
 void welcome()
 {
 	cout << "---- WELCOME TO THE HANGMAN GAME ----" << endl
-		<< "Guess the European country!" << endl
 		<< "You have " << MAX_LIVES << " tries to guess... or you will be HANGED."
 		<< endl << endl;
 }
