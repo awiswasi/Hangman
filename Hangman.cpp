@@ -10,58 +10,72 @@ int wordGuess(char guess, string secretword, string &guessword);
 
 int main()
 {
-	char letter;
-	int wrong_guesses = 0;
-	string word;
-	string words[10] = { "germany","france","austria","italy","switzerland","belgium","norway","iceland","finland","spain" };
-
-	//choose and copy a word from array of words randomly
-	srand(time(NULL));
-	int n = rand() % 10;
-	word = words[n];
-
-	// This will show *'s in place of the secret word to hide it
-	string unknown(word.length(), '*');
-
+	char choice = 'Y';
+	// Welcome the user to the game.
 	welcome();
 
-	// While loop to use up a life with each iteration
-	while (wrong_guesses < MAX_LIVES)
+	// While loop to prompt the user if they want to play again.
+	while (toupper(choice) != 'N')
 	{
-		cout << unknown << endl;
-		cout << "Guess a letter:  ";
-		cin >> letter;
-		// Fill secret word with letter if the guess is correct,
-		if (wordGuess(letter, word, unknown) == 0)
+		char letter;
+		int wrong_guesses = 0;
+		string word;
+		string words[10] = { "germany","france","austria","italy","switzerland","belgium","norway","iceland","finland","spain" };
+
+		// Generate a random word from the words array and copy it to word.
+		srand(time(NULL));
+		int n = rand() % 10;
+		word = words[n];
+
+		// This will show *'s in place of the secret word to hide it.
+		string unknown(word.length(), '*');
+
+		// While loop to use up a life with each iteration.
+		while (wrong_guesses < MAX_LIVES)
 		{
-			cout << endl << "Sorry! Wrong letter. Try again!" << endl;
-			wrong_guesses++;
+			cout << unknown << endl;
+			cout << "Guess a letter:  ";
+			cin >> letter;
+			// Fill secret word with letter if the guess is correct.
+			if (wordGuess(letter, word, unknown) == 0)
+			{
+				cout << endl << "Sorry! Wrong letter. Try again!" << endl;
+				wrong_guesses++;
+			}
+			else
+			{
+				cout << endl << "Correct letter! Keep going!" << endl;
+			}
+			// Tell user how many guesses has left.
+			cout << "You have " << MAX_LIVES - wrong_guesses;
+			cout << " guesses left." << endl << endl;
+			// Check if user guessed the word.
+			if (word == unknown)
+			{
+				cout << "The word was " << word << endl << endl;
+				cout << "Congratulations!" << endl
+					<< "You won. Good job." << endl << endl;
+				cout << "Play again? (Y/N)  ";
+				cin >> choice;
+				system("CLS");
+				break;
+			}
 		}
-		else
+		// When all lives have been used up, the user loses.
+		if (wrong_guesses == MAX_LIVES)
 		{
-			cout << endl << "Correct letter! Keep going!" << endl;
+			cout << "  _______ " << endl << "  |\t|" << endl;
+			cout << "  O\t|" << endl << " /|\\\t|" << endl << "  | \t|" << endl << " / \\\t|" << endl << "________|" << endl << endl;
+			cout << "...You have been HANGED." << endl;
+			cout << "The word was : " << word << endl;
+			cout << "Play again? (Y/N)  ";
+			cin >> choice;
+			system("CLS");
 		}
-		// Tell user how many guesses has left.
-		cout << "You have " << MAX_LIVES - wrong_guesses;
-		cout << " guesses left." << endl << endl;
-		// Check if user guessed the word.
-		if (word == unknown)
-		{
-			cout << "The word was " << word << endl << endl;
-			cout << "Congratulations!" << endl
-				<< "You won. Good job." << endl << endl;
-			break;
-		}
+		cin.ignore();
+		
 	}
-	if (wrong_guesses == MAX_LIVES)
-	{
-		cout << "  _______ " << endl << "  |\t|" << endl;
-		cout << "  O\t|" << endl << " /|\\\t|" << endl << "  | \t|" << endl << " / \\\t|" << endl << "________|" << endl << endl;
-		cout << "...You have been HANGED." << endl;
-		cout << "The word was : " << word << endl;
-	}
-	cin.ignore();
-	cin.get();
+	
 	return 0;
 }
 // ----------
